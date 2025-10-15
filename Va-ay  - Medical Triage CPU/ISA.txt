@@ -1,0 +1,105 @@
+Instruction Set Architecture
+00 - No Operation
+00: NOP — No operation (does nothing).
+
+Load Immediate Values
+Requires 2-digit hex value (XX)
+
+01 XX: LIA — Load immediate value to A register
+
+02 XX: LIB — Load immediate value to B register
+
+03 XX: LIT — Load immediate value to TTY display
+
+Load from RAM
+Requires 4-digit hex address (XXXX)
+
+10 XX XX: LDA — Load value from RAM to A register
+
+11 XX XX: LDB — Load value from RAM to B register
+
+12 XX XX: LDT — Load value from RAM to TTY display
+
+13 XX XX: LD0 — Load value from RAM to MAR2
+
+14 XX XX: LD1 — Load value from RAM to MAR3
+
+Does not require hex value
+
+15: LDI — Load value to A register from address formed by MAR2 (low byte) and MAR3 (high byte)
+
+Store to RAM
+Requires 4-digit hex address (XXXX)
+
+20 XX XX: STA — Store value from A register to RAM
+
+21 XX XX: STB — Store value from B register to RAM
+
+22 XX XX: STK — Store value from keyboard buffer to RAM and load next value from buffer
+
+Does not require hex value
+
+23: STI — Store value from A register to RAM using MAR2 + MAR3 as address
+
+ALU Operations
+Requires 4-digit hex address (XXXX)
+
+30 XX XX: ADD — Add A and B registers; store result in A
+
+31 XX XX: SUB — Subtract B from A; store result in A
+
+Does not require hex value
+
+32: RTR — Rotate A register right by 1 bit
+
+33: RTL — Rotate A register left by 1 bit
+
+Requires 4-digit hex address
+
+34 XX XX: CMP — Compare A and B registers; update flags
+
+Does not require hex value
+
+35: NOT — Bitwise NOT on A register
+
+36 XX XX: AND — AND A register with RAM value; store result in A
+
+37 XX XX: OR — OR A register with RAM value; store result in A
+
+38 XX XX: XOR — XOR A register with RAM value; store result in A
+
+Pixel Display Opcodes
+The pixel display uses the last 8 RAM addresses (FFF8–FFFF). Each address represents one line of the display:
+
+FFFF: Top line
+
+FFF8: Bottom line
+
+Does not require hex value
+
+52: UPD — Update display with values from frame buffer
+
+Jump / Branch / Call / Return
+Requires 4-digit hex address (XXXX)
+
+70 XX XX: JMP — Unconditional jump to address
+
+71 XX XX: JPC — Jump if carry flag is set
+
+72 XX XX: JPB — Jump if borrow flag is set
+
+73 XX XX: JNZ — Jump if not-zero flag is set
+
+74 XX XX: JPZ — Jump if zero flag is set
+
+75 XX XX: JPG — Jump if greater-than flag is set
+
+76 XX XX: JPE — Jump if equals flag is set
+
+77 XX XX: JPL — Jump if less-than flag is set
+
+78 XX XX: JCAL — Push PC to stack, increment SP, jump to address
+
+Does not require hex value
+
+79: RET — Pop address from stack into PC; decrement SP
